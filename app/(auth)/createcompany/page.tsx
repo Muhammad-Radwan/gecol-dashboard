@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { company } from "@/lib/CompanyType";
+import { apiUrl } from "@/lib/Constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -54,7 +55,7 @@ const CreateCompanyPage = () => {
 
   const fetchAllCompanies = async () => {
     try {
-      const url = `https://smartmeter.com.ly/api/companies/all?Page=1`;
+      const url = `${apiUrl}/api/companies/all?Page=1`;
       const response = await axios.get(url);
 
       return response.data;
@@ -83,7 +84,7 @@ const CreateCompanyPage = () => {
     newCompanyData: z.infer<typeof createCompanySchema>
   ) => {
     try {
-      const url = `https://smartmeter.com.ly/api/companies/create`;
+      const url = `${apiUrl}/api/companies/create`;
 
       const newCompany = {
         cardGuide: v4(),

@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {  z } from "zod";
 import { useMutation, useQueryClient} from "@tanstack/react-query"
+import { apiUrl } from "@/lib/Constants";
 
 const userFormSchema = z.object({
   userName: z
@@ -42,7 +43,7 @@ const LoginPage = () => {
 
   const fetchData = async (data: z.infer<typeof userFormSchema>) => {
     try {
-      const url = `https://smartmeter.com.ly/api/employees/login?UserName=${data.userName}&Password=${data.password}`
+      const url = `${apiUrl}/api/employees/login?UserName=${data.userName}&Password=${data.password}`
      
       const response = await axios.get(url);
     

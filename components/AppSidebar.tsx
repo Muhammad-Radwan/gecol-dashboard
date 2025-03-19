@@ -24,11 +24,6 @@ const menuItems = [
     icon: FaBuilding
   },
   {
-    title: "إضافة شركة",
-    url: "/createcompany",
-    icon: FaBuilding
-  },
-  {
     title: "تسجيل الخروج",
     url: "/login",
     icon: FaLock

@@ -18,6 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { company } from "@/lib/CompanyType";
+import { apiUrl } from "@/lib/Constants";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -52,7 +53,7 @@ const userFormSchema = z.object({
 
 const SignupPage = () => {
   const route = useRouter();
-  
+
   // const qc = useQueryClient();
 
   const userForm = useForm<z.infer<typeof userFormSchema>>({
@@ -67,7 +68,7 @@ const SignupPage = () => {
 
   const fetchAllCompanies = async () => {
     try {
-      const url = `https://smartmeter.com.ly/api/companies/all?Page=1`;
+      const url = `${apiUrl}/api/companies/all?Page=1`;
       const response = await axios.get(url);
 
       return response.data;
@@ -91,7 +92,7 @@ const SignupPage = () => {
 
   const createUser = async (newEmployee: z.infer<typeof userFormSchema>) => {
     try {
-      const url = `https://smartmeter.com.ly/api/employyes/create`;
+      const url = `${apiUrl}/api/employees/create`;
 
       const newCompany = {
         cardGuide: v4(),
@@ -101,7 +102,7 @@ const SignupPage = () => {
         companyGuid: newEmployee.companyGuid,
       };
 
-     await axios.post(url, newCompany, {
+      await axios.post(url, newCompany, {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -109,7 +110,6 @@ const SignupPage = () => {
         withCredentials: false,
       });
       route.push("/dashboard");
-      
     } catch (error) {
       console.log(error);
       toast.error("لا يمكن إنشاء الشركة", {
