@@ -1,4 +1,5 @@
-"use client";
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   Pagination,
@@ -17,14 +18,14 @@ import { apiUrl } from "@/lib/Constants";
 import { MeterListType } from "@/lib/MetersListType";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+
 import { useState } from "react";
 import * as XLSX from "xlsx";
+import { useParams } from "next/navigation";
 
-interface props {
-  params: { id: string };
-}
 
-const MetersList = ({ params }: props) => {
+const MetersList = () => {
+  const params = useParams()
   const [page, setPage] = useState<number>(1);
   const fetchData = async (page: number) => {
     try {
@@ -40,11 +41,7 @@ const MetersList = ({ params }: props) => {
     }
   };
 
-  const {
-    data: metersData,
-    error,
-    isLoading,
-  } = useQuery<MeterListType[]>({
+  const { data: metersData } = useQuery<MeterListType[]>({
     queryKey: ["metersData", page],
     queryFn: () => fetchData(page),
   });
@@ -60,7 +57,9 @@ const MetersList = ({ params }: props) => {
     <div>
       <h1 className="text-2xl">قائمة التركيبات</h1>
       <div className="space-y-4">
-        <Button onClick={() => exportToExcel(metersData || [])}>تصدير إكسل</Button>
+        <Button onClick={() => exportToExcel(metersData || [])}>
+          تصدير إكسل
+        </Button>
         <Pagination>
           <PaginationContent>
             <PaginationItem>

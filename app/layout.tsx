@@ -36,14 +36,13 @@ export default function RootLayout({
         className={`${changa.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
+          attribute="class"
           defaultTheme="system"
-          // enableSystem
+          enableSystem
           disableTransitionOnChange
         >
           <QCProvider>
-            <main>
-              {children}
-            </main>
+            <main>{children}</main>
           </QCProvider>
         </ThemeProvider>
       </body>

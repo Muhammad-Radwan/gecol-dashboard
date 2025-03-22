@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware (req: NextRequest) {
     const userGuid = req.cookies.get('guid')
-    const protectedRoutes = ['/dashboard']
+    const protectedRoutes = ['/dashboard', '/createcompany', '/signup', '/meterslist']
 
     if (protectedRoutes.includes(req.nextUrl.pathname) && !userGuid) {
         return NextResponse.redirect(new URL('/login', req.url))
@@ -11,5 +11,5 @@ export function middleware (req: NextRequest) {
 }
 
 export const config = {
-    matcher: ["/dashboard"], // Define routes to protect
+    matcher: ['/dashboard', '/createcompany', '/signup', '/meterslist'], // Define routes to protect
 };

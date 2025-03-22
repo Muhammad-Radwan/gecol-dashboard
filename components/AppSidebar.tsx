@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
@@ -9,38 +11,37 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { FaUser, FaBuilding, FaLock, FaList, FaHome } from "react-icons/fa";
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FaBuilding, FaHome, FaList, FaLock, FaUser } from "react-icons/fa";
 
 const menuItems = [
   {
     title: "الرئيسية",
     url: "/dashboard",
-    icon: FaHome
+    icon: FaHome,
   },
   {
     title: "إضافة مستخدم",
     url: "/signup",
-    icon: FaUser
+    icon: FaUser,
   },
   {
     title: "إضافة شركة",
     url: "/createcompany",
-    icon: FaBuilding
+    icon: FaBuilding,
   },
   {
     title: "قائمة التركيبات",
     url: "/meterslist/e8a7299e-80db-4f3a-b176-0af88762e79c",
-    icon: FaList
+    icon: FaList,
   },
-  {
-    title: "تسجيل الخروج",
-    url: "/login",
-    icon: FaLock
-  },
+  
 ];
 
 export function AppSidebar() {
+  const router = useRouter()
   return (
     <Sidebar side="right">
       <SidebarHeader />
@@ -53,10 +54,19 @@ export function AppSidebar() {
             {menuItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <Link href={item.url}> <item.icon /> {item.title}</Link>
+                  <Link href={item.url}>
+                    {" "}
+                    <item.icon /> {item.title}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
+            <SidebarMenuItem>
+              <SidebarMenuButton onClick={async () => {
+                await axios.get('/api/logout')
+                router.push('/login')
+              }}><FaLock />تسجيل الخروج</SidebarMenuButton>
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

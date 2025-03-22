@@ -1,6 +1,7 @@
+
 import { apiUrl } from "@/lib/Constants";
 import { MeterLocationsType } from "@/lib/MeterLocationsType";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -17,7 +18,13 @@ const center = {
 };
 
 const Map = () => {
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+  });
+
   const [map, setMap] = useState<google.maps.Map | null>(null);
+
   const [userLocation, setUserLocation] =
     useState<google.maps.LatLngLiteral | null>(null);
 
@@ -59,8 +66,9 @@ const Map = () => {
     queryFn: fetchData,
   });
 
+  if (!isLoaded || typeof window === "undefined") return <p>Loading...</p>;
+
   return (
-    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={userLocation || center}
@@ -77,7 +85,7 @@ const Map = () => {
           />
         ))}
       </GoogleMap>
-    </LoadScript>
+    
   );
 };
 
