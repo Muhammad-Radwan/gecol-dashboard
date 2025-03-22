@@ -1,0 +1,20 @@
+export type MeterListType =  {
+    location: string,
+    buildingAdress: string,
+    flatNumber: string,
+    oldMeterNumber: string,
+    oldMeterReading: string,
+    newMeterNumber: string,
+    barcode: string,
+    meterType: number,
+    manufacturer: string,
+    installationType: string,
+    latitude: number,
+    longitude: number,
+    phoneNumber: string,
+    employeeName: string,
+    insertedIn: Date,
+    category: string,
+    companyName: string,
+    mainComapny: string
+  }

@@ -4,17 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import { Toaster } from "@/components/ui/sonner";
+import { apiUrl } from "@/lib/Constants";
+import { userType } from "@/lib/EmployeeType";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { LucideClockFading } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import {  z } from "zod";
-import { useMutation, useQueryClient} from "@tanstack/react-query"
-import { apiUrl } from "@/lib/Constants";
+import { z } from "zod";
 
 const userFormSchema = z.object({
   userName: z
@@ -29,9 +29,9 @@ const userFormSchema = z.object({
 
 const LoginPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const route = useRouter()
+  const route = useRouter();
 
-  const qc = useQueryClient()
+  const qc = useQueryClient();
 
   const userForm = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
@@ -43,37 +43,45 @@ const LoginPage = () => {
 
   const fetchData = async (data: z.infer<typeof userFormSchema>) => {
     try {
-      const url = `${apiUrl}/api/employees/login?UserName=${data.userName}&Password=${data.password}`
-     
+      const url = `${apiUrl}/api/employees/login?UserName=${data.userName}&Password=${data.password}`;
+
       const response = await axios.get(url);
-    
+
       setIsLoading(false);
+      const userGuide = response.data.employeeGuid;
+
+      await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userGuide }),
+      });
+
       return response.data;
-      
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error("لا يمكن تسجيل الدخول", {
-        description: 'يوجد خطأ في بيانات الدخول',
+        description: "يوجد خطأ في بيانات الدخول",
         action: {
           label: "حسناً",
           onClick: () => {},
         },
       });
     }
-  }
+  };
 
   const mutation = useMutation({
     mutationFn: fetchData,
-    onSuccess: (data) => {
+    onSuccess: (data: userType) => {
       if (data) {
-        qc.setQueryData(['UserData'], data)
-        route.push('/dashboard')
+        qc.setQueryData(["UserData"], data);
+
+        route.push("/dashboard");
       }
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof userFormSchema>) {
-    mutation.mutate(values)
+    mutation.mutate(values);
   }
 
   return (
@@ -86,10 +94,9 @@ const LoginPage = () => {
         <Form {...userForm}>
           <form
             onSubmit={userForm.handleSubmit(onSubmit)}
-            className="space-y-8">
-            
+            className="space-y-8"
+          >
             <CustomField
-             
               name="userName"
               isPassword={false}
               label="اسم المستخدم"
@@ -107,15 +114,12 @@ const LoginPage = () => {
               <Button disabled={mutation.isPending} type="submit">
                 تسجيل الدخول {isLoading && <LucideClockFading />}
               </Button>
-              <Link href="/">هل نسيت كلمة المرور؟</Link>
             </div>
-            
           </form>
         </Form>
-        <Toaster richColors/>
+        <Toaster richColors />
       </CardContent>
     </Card>
-
   );
 };
 

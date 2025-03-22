@@ -9,10 +9,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { FaUser, FaBuilding, FaLock } from "react-icons/fa";
+import { FaUser, FaBuilding, FaLock, FaList, FaHome } from "react-icons/fa";
 import Link from "next/link";
 
 const menuItems = [
+  {
+    title: "الرئيسية",
+    url: "/dashboard",
+    icon: FaHome
+  },
   {
     title: "إضافة مستخدم",
     url: "/signup",
@@ -22,6 +27,11 @@ const menuItems = [
     title: "إضافة شركة",
     url: "/createcompany",
     icon: FaBuilding
+  },
+  {
+    title: "قائمة التركيبات",
+    url: "/meterslist/e8a7299e-80db-4f3a-b176-0af88762e79c",
+    icon: FaList
   },
   {
     title: "تسجيل الخروج",

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Changa, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import QCProvider from "./QCProvider";
 import { ThemeProvider } from "@/components/theme-privider";
+import QCProvider from "./QCProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 
 const changa = Changa({
   variable: "--font-changa",
-  subsets: ["arabic"]
-})
+  subsets: ["arabic"],
+});
 
 export const metadata: Metadata = {
   title: "Gecol Meter",
@@ -36,18 +36,16 @@ export default function RootLayout({
         className={`${changa.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            // enableSystem
-            disableTransitionOnChange
-          >
-            <QCProvider>
-              <main>
-              { children}
-              </main>
-            </QCProvider>
-          </ThemeProvider>
-       
+          defaultTheme="system"
+          // enableSystem
+          disableTransitionOnChange
+        >
+          <QCProvider>
+            <main>
+              {children}
+            </main>
+          </QCProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

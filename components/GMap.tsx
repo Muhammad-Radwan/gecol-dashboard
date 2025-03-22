@@ -6,11 +6,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-
-
 const containerStyle = {
   width: "75%",
-  height: "400px",
+  height: "600px",
 };
 
 const center = {
@@ -24,7 +22,7 @@ const Map = () => {
     useState<google.maps.LatLngLiteral | null>(null);
 
   useEffect(() => {
-    console.log(map)
+    console.log(map);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -44,20 +42,22 @@ const Map = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/api/MeterInstallations/MetersLocationsByCompany?CompanyGuid=e8a7299e-80db-4f3a-b176-0af88762e79c`)
-      console.log(response.data)
-      return response.data
+      const response = await axios.get(
+        `${apiUrl}/api/MeterInstallations/MetersLocationsByCompany?CompanyGuid=e8a7299e-80db-4f3a-b176-0af88762e79c`
+      );
+      console.log(response.data);
+      return response.data;
     } catch (error) {
-      console.log(error)
-      toast.error('لا يمكن عرض مواقع العدادات في الوقت الحالي')
-      return []
+      console.log(error);
+      toast.error("لا يمكن عرض مواقع العدادات في الوقت الحالي");
+      return [];
     }
-  }
+  };
 
-  const {data: meterData} = useQuery<MeterLocationsType[]>({
-    queryKey: ['meterData'],
-    queryFn: fetchData
-  })
+  const { data: meterData } = useQuery<MeterLocationsType[]>({
+    queryKey: ["meterData"],
+    queryFn: fetchData,
+  });
 
   return (
     <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!}>
@@ -70,7 +70,11 @@ const Map = () => {
         {/* Marker */}
 
         {meterData?.map((x) => (
-          <Marker key={x.newMeterNumber} title={x.barcode} position={{lat: x.latitude, lng: x.longitude}} />
+          <Marker
+            key={x.newMeterNumber}
+            title={x.barcode}
+            position={{ lat: x.latitude, lng: x.longitude }}
+          />
         ))}
       </GoogleMap>
     </LoadScript>
