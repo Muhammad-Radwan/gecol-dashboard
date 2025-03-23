@@ -11,37 +11,41 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { userType } from "@/lib/EmployeeType";
+import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FaBuilding, FaHome, FaList, FaLock, FaUser } from "react-icons/fa";
 
-const menuItems = [
-  {
-    title: "الرئيسية",
-    url: "/dashboard",
-    icon: FaHome,
-  },
-  {
-    title: "إضافة مستخدم",
-    url: "/signup",
-    icon: FaUser,
-  },
-  {
-    title: "إضافة شركة",
-    url: "/createcompany",
-    icon: FaBuilding,
-  },
-  {
-    title: "قائمة التركيبات",
-    url: "/meterslist/e8a7299e-80db-4f3a-b176-0af88762e79c",
-    icon: FaList,
-  },
-  
-];
-
 export function AppSidebar() {
-  const router = useRouter()
+  const queryClient = useQueryClient();
+  const sharedData = queryClient.getQueryData<userType>(["UserData"]);
+  const router = useRouter();
+
+  const menuItems = [
+    {
+      title: "الرئيسية",
+      url: "/dashboard",
+      icon: FaHome,
+    },
+    {
+      title: "إضافة مستخدم",
+      url: "/signup",
+      icon: FaUser,
+    },
+    {
+      title: "إضافة شركة",
+      url: "/createcompany",
+      icon: FaBuilding,
+    },
+    {
+      title: "قائمة التركيبات",
+      url: `/meterslist/${sharedData?.companyGuid}`,
+      icon: FaList,
+    },
+  ];
+
   return (
     <Sidebar side="right">
       <SidebarHeader />
@@ -62,10 +66,15 @@ export function AppSidebar() {
               </SidebarMenuItem>
             ))}
             <SidebarMenuItem>
-              <SidebarMenuButton onClick={async () => {
-                await axios.get('/api/logout')
-                router.push('/login')
-              }}><FaLock />تسجيل الخروج</SidebarMenuButton>
+              <SidebarMenuButton
+                onClick={async () => {
+                  await axios.get("/api/logout");
+                  router.push("/login");
+                }}
+              >
+                <FaLock />
+                تسجيل الخروج
+              </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>

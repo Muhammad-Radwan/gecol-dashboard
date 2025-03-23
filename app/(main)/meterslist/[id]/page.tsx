@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,13 +19,12 @@ import { MeterListType } from "@/lib/MetersListType";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
+import { useParams } from "next/navigation";
 import { useState } from "react";
 import * as XLSX from "xlsx";
-import { useParams } from "next/navigation";
-
 
 const MetersList = () => {
-  const params = useParams()
+  const params = useParams();
   const [page, setPage] = useState<number>(1);
   const fetchData = async (page: number) => {
     try {
@@ -57,72 +56,74 @@ const MetersList = () => {
     <div>
       <h1 className="text-2xl">قائمة التركيبات</h1>
       <div className="space-y-4">
-        <Button onClick={() => exportToExcel(metersData || [])}>
-          تصدير إكسل
-        </Button>
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem>
-              <Button onClick={() => setPage((prev) => Math.max(prev - 1, 1))}>
-                السابق
-              </Button>
-            </PaginationItem>
+        <div className="flex items-center">
+          <Button
+            className="mt-3"
+            onClick={() => exportToExcel(metersData || [])}
+          >
+            تصدير إكسل (الصفحة الحالية)
+          </Button>
 
-            <PaginationItem>
-              <Button variant="outline" disabled>
-                الصفحة {page}
-              </Button>
-            </PaginationItem>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <Button
+                  onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                >
+                  السابق
+                </Button>
+              </PaginationItem>
 
-            <PaginationItem>
-              <Button onClick={() => setPage((prev) => prev + 1)}>
-                التالي
-              </Button>
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+              <PaginationItem>
+                <Button variant="outline" disabled>
+                  الصفحة {page}
+                </Button>
+              </PaginationItem>
+
+              <PaginationItem>
+                <Button onClick={() => setPage((prev) => prev + 1)}>
+                  التالي
+                </Button>
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        </div>
 
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>الموقع</TableHead>
-              <TableHead>العنوان</TableHead>
-              <TableHead>رقم الشقة</TableHead>
-              <TableHead>رقم العداد القديم</TableHead>
-              <TableHead>القراءة</TableHead>
-              <TableHead>رقم العداد الجديد</TableHead>
-              <TableHead>الباركود</TableHead>
-              <TableHead>نوع العداد</TableHead>
-              <TableHead>الشركة المصنعة</TableHead>
-              <TableHead>نوع التركيب</TableHead>
-              <TableHead>الاحداثيات</TableHead>
-              <TableHead>رقم الهاتف</TableHead>
-              <TableHead>اسم الموظف</TableHead>
-              <TableHead>تاريخ التركيب</TableHead>
-              <TableHead>التصنيف</TableHead>
-              <TableHead>الشركة المنفذة</TableHead>
-              <TableHead>الشركة المكلفة</TableHead>
+              <TableHead className="text-center">العنوان</TableHead>
+              <TableHead className="text-center">رقم الشقة</TableHead>
+              <TableHead className="text-center">رقم العداد القديم</TableHead>
+              <TableHead className="text-center">القراءة</TableHead>
+              <TableHead className="text-center">رقم العداد الجديد</TableHead>
+              <TableHead className="text-center">الباركود</TableHead>
+              <TableHead className="text-center">نوع العداد</TableHead>
+              <TableHead className="text-center">نوع التركيب</TableHead>
+              <TableHead className="text-center">الاحداثيات</TableHead>
+              <TableHead className="text-center">تاريخ التركيب</TableHead>
+              <TableHead className="text-center">نوع النشاط</TableHead>
+              <TableHead className="text-center">الشركة المنفذة</TableHead>
+              <TableHead className="text-center">الشركة المكلفة</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {metersData?.map((x) => (
               <TableRow key={x.barcode}>
-                <TableCell>{x.location}</TableCell>
-                <TableCell>{x.buildingAdress}</TableCell>
+                <TableCell>{x.location}، {x.buildingAdress}</TableCell>
                 <TableCell>{x.flatNumber}</TableCell>
                 <TableCell>{x.oldMeterNumber}</TableCell>
                 <TableCell>{x.oldMeterReading}</TableCell>
                 <TableCell>{x.newMeterNumber}</TableCell>
                 <TableCell>{x.barcode}</TableCell>
                 <TableCell>{x.meterType}</TableCell>
-                <TableCell>{x.manufacturer}</TableCell>
                 <TableCell>{x.installationType}</TableCell>
                 <TableCell>
                   {x.latitude}, {x.longitude}
                 </TableCell>
-                <TableCell>{x.phoneNumber}</TableCell>
-                <TableCell>{x.employeeName}</TableCell>
-                {/* <TableCell>{x.insertedIn.toDateString()}</TableCell> */}
+                <TableCell>
+                  {new Date(x.insertedIn).toLocaleDateString()}
+                </TableCell>
                 <TableCell>{x.category}</TableCell>
                 <TableCell>{x.companyName}</TableCell>
                 <TableCell>{x.mainComapny}</TableCell>

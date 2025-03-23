@@ -1,4 +1,4 @@
-
+'use effect'
 import { apiUrl } from "@/lib/Constants";
 import { MeterLocationsType } from "@/lib/MeterLocationsType";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
@@ -17,42 +17,47 @@ const center = {
   lng: -122.4194, // Default longitude
 };
 
-const Map = () => {
+interface props {
+  companyGuid: string
+}
+
+const Map = ({companyGuid} : props) => {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
   });
 
-  const [map, setMap] = useState<google.maps.Map | null>(null);
-
   const [userLocation, setUserLocation] =
     useState<google.maps.LatLngLiteral | null>(null);
 
   useEffect(() => {
-    console.log(map);
     if (navigator.geolocation) {
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setUserLocation({
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           });
+          
         },
         (error) => {
           console.error("Error getting location:", error);
+        }, {
+          enableHighAccuracy: true
         }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
     }
+    
   }, []);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${apiUrl}/api/MeterInstallations/MetersLocationsByCompany?CompanyGuid=e8a7299e-80db-4f3a-b176-0af88762e79c`
+        `${apiUrl}/api/MeterInstallations/MetersLocationsByCompany?CompanyGuid=${companyGuid}`
       );
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -72,10 +77,8 @@ const Map = () => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={userLocation || center}
-        zoom={15}
-        onLoad={(map) => setMap(map)}
+        zoom={16} 
       >
-        {/* Marker */}
 
         {meterData?.map((x) => (
           <Marker
