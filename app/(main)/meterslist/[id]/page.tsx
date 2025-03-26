@@ -89,48 +89,60 @@ const MetersList = () => {
           </Pagination>
         </div>
 
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-center">العنوان</TableHead>
-              <TableHead className="text-center">رقم الشقة</TableHead>
-              <TableHead className="text-center">رقم العداد القديم</TableHead>
-              <TableHead className="text-center">القراءة</TableHead>
-              <TableHead className="text-center">رقم العداد الجديد</TableHead>
-              <TableHead className="text-center">الباركود</TableHead>
-              <TableHead className="text-center">نوع العداد</TableHead>
-              <TableHead className="text-center">نوع التركيب</TableHead>
-              <TableHead className="text-center">الاحداثيات</TableHead>
-              <TableHead className="text-center">تاريخ التركيب</TableHead>
-              <TableHead className="text-center">نوع النشاط</TableHead>
-              <TableHead className="text-center">الشركة المنفذة</TableHead>
-              <TableHead className="text-center">الشركة المكلفة</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {metersData?.map((x) => (
-              <TableRow key={x.barcode}>
-                <TableCell>{x.location}، {x.buildingAdress}</TableCell>
-                <TableCell>{x.flatNumber}</TableCell>
-                <TableCell>{x.oldMeterNumber}</TableCell>
-                <TableCell>{x.oldMeterReading}</TableCell>
-                <TableCell>{x.newMeterNumber}</TableCell>
-                <TableCell>{x.barcode}</TableCell>
-                <TableCell>{x.meterType}</TableCell>
-                <TableCell>{x.installationType}</TableCell>
-                <TableCell>
-                  {x.latitude}, {x.longitude}
-                </TableCell>
-                <TableCell>
-                  {new Date(x.insertedIn).toLocaleDateString()}
-                </TableCell>
-                <TableCell>{x.category}</TableCell>
-                <TableCell>{x.companyName}</TableCell>
-                <TableCell>{x.mainComapny}</TableCell>
+        <div className="rounded-md border container mx-auto py-5">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="text-center">العنوان</TableHead>
+                <TableHead className="text-center">رقم الشقة</TableHead>
+                <TableHead className="text-center">رقم العداد القديم</TableHead>
+                <TableHead className="text-center">القراءة</TableHead>
+                <TableHead className="text-center">رقم العداد الجديد</TableHead>
+                <TableHead className="text-center">الباركود</TableHead>
+                <TableHead className="text-center">نوع العداد</TableHead>
+                <TableHead className="text-center">نوع التركيب</TableHead>
+                <TableHead className="text-center">الاحداثيات</TableHead>
+                <TableHead className="text-center">تاريخ التركيب</TableHead>
+                <TableHead className="text-center">نوع النشاط</TableHead>
+                <TableHead className="text-center">الشركة المنفذة</TableHead>
+                <TableHead className="text-center">الشركة المكلفة</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {!metersData?.length ? (
+                <TableRow>
+                  <TableCell className="text-center text-xl" colSpan={13}>
+                    لا توجد نتائج
+                  </TableCell>
+                </TableRow>
+              ) : (
+                metersData?.map((x) => (
+                  <TableRow key={x.barcode}>
+                    <TableCell>
+                      {x.location}، {x.buildingAdress}
+                    </TableCell>
+                    <TableCell>{x.flatNumber}</TableCell>
+                    <TableCell>{x.oldMeterNumber}</TableCell>
+                    <TableCell>{x.oldMeterReading}</TableCell>
+                    <TableCell>{x.newMeterNumber}</TableCell>
+                    <TableCell>{x.barcode}</TableCell>
+                    <TableCell>{x.meterType}</TableCell>
+                    <TableCell>{x.installationType}</TableCell>
+                    <TableCell>
+                      {x.latitude}, {x.longitude}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(x.insertedIn).toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>{x.category}</TableCell>
+                    <TableCell>{x.companyName}</TableCell>
+                    <TableCell>{x.mainComapny}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
     </div>
   );

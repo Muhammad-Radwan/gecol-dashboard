@@ -16,7 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaBuilding, FaHome, FaList, FaLock, FaUser } from "react-icons/fa";
+import { FaBuilding, FaHome, FaList, FaLock, FaUser, FaChartBar } from "react-icons/fa";
 
 export function AppSidebar() {
   const queryClient = useQueryClient();
@@ -43,6 +43,11 @@ export function AppSidebar() {
       title: "قائمة التركيبات",
       url: `/meterslist/${sharedData?.companyGuid}`,
       icon: FaList,
+    },
+    {
+      title: "احصائيات",
+      url: `/statistics/${sharedData?.companyGuid}`,
+      icon: FaChartBar,
     },
   ];
 
