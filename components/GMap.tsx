@@ -24,7 +24,7 @@ interface props {
 const Map = ({companyGuid} : props) => {
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyD_Pz5gNTxY1lvVdSnmxajAot1FqF37xR4',
+    googleMapsApiKey: 'AIzaSyAITueVRuon10PYXEojy-SjKMTM1zRD31Q',
   });
 
   const [userLocation, setUserLocation] =
