@@ -1,8 +1,8 @@
+
 import type { Metadata } from "next";
 import { Changa, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/theme-privider";
 import QCProvider from "./QCProvider";
 
 const geistSans = Geist({
@@ -35,16 +35,9 @@ export default function RootLayout({
       <body
         className={`${changa.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <QCProvider>
-            <main>{children}</main>
-          </QCProvider>
-        </ThemeProvider>
+        <QCProvider>
+          <main>{children}</main>
+        </QCProvider>
       </body>
     </html>
   );

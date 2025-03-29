@@ -4,6 +4,7 @@ import { MeterLocationsType } from "@/lib/MeterLocationsType";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -71,7 +72,7 @@ const Map = ({companyGuid} : props) => {
     queryFn: fetchData,
   });
 
-  if (!isLoaded || typeof window === "undefined") return <p>Loading...</p>;
+  if (!isLoaded || typeof window === "undefined") return <Loader2 />;
 
   return (
       <GoogleMap

@@ -9,13 +9,12 @@ import { userType } from "@/lib/EmployeeType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { LucideClockFading } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-
+import { Loader2 } from "lucide-react";
 const userFormSchema = z.object({
   userName: z
     .string()
@@ -112,7 +111,7 @@ const LoginPage = () => {
 
             <div className="flex items-center justify-between">
               <Button disabled={mutation.isPending} type="submit">
-                تسجيل الدخول {isLoading && <LucideClockFading />}
+                تسجيل الدخول {isLoading && <Loader2 />}
               </Button>
             </div>
           </form>

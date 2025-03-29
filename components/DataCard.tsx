@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "./ui/card";
 
 interface props {
   title: string;
@@ -8,13 +14,13 @@ interface props {
 
 const DataCard = ({ title, subtitle, value }: props) => {
   return (
-    <Card className="w-[150px] h-[150px]">
+    <Card className="w-[200px] h-[200px]">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{subtitle}</CardDescription>
+        <CardTitle className="text-3xl">{title}</CardTitle>
+        <CardDescription className="text-2xl">{subtitle}</CardDescription>
       </CardHeader>
       <CardContent>
-        <h1 className="text-3xl font-bold">{value}</h1>
+        <h1 className="text-5xl font-bold">{value}</h1>
       </CardContent>
     </Card>
   );
