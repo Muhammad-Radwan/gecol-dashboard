@@ -16,11 +16,32 @@ import { useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaBuilding, FaHome, FaList, FaLock, FaUser, FaChartBar } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import {
+  FaBuilding,
+  FaChartBar,
+  FaFileExcel,
+  FaHome,
+  FaList,
+  FaLock,
+  FaUser,
+} from "react-icons/fa";
 
 export function AppSidebar() {
   const queryClient = useQueryClient();
-  const sharedData = queryClient.getQueryData<userType>(["UserData"]);
+
+  const [userData, setUserData] = useState<userType | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("userData");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      queryClient.setQueryData(["UserData"], parsed);
+      setUserData(parsed); // optional, for immediate access
+    }
+  }, []);
+
+  //const queryData = queryClient.getQueryData<userType>(["UserData"]);
   const router = useRouter();
 
   const menuItems = [
@@ -28,26 +49,37 @@ export function AppSidebar() {
       title: "الرئيسية",
       url: "/dashboard",
       icon: FaHome,
+      visible: true
     },
     {
       title: "إضافة مستخدم",
       url: "/signup",
       icon: FaUser,
+      visible: userData?.isITUser
     },
     {
       title: "إضافة شركة",
       url: "/createcompany",
       icon: FaBuilding,
+      visible: userData?.isITUser
     },
     {
       title: "قائمة التركيبات",
-      url: `/meterslist/${sharedData?.companyGuid}`,
+      url: `/meterslist/${userData?.companyGuid}`,
       icon: FaList,
+      visible: true
+    },
+    {
+      title: "تصدير إكسل",
+      url: `/excelexport/${userData?.companyGuid}`,
+      icon: FaFileExcel,
+      visible: true
     },
     {
       title: "احصائيات",
-      url: `/statistics/${sharedData?.companyGuid}`,
+      url: `/statistics/${userData?.companyGuid}`,
       icon: FaChartBar,
+      visible: true
     },
   ];
 
@@ -61,7 +93,7 @@ export function AppSidebar() {
           </SidebarGroupLabel>
           <SidebarMenu>
             {menuItems.map((item) => (
-              <SidebarMenuItem key={item.title}>
+              <SidebarMenuItem hidden={!item.visible} key={item.title}>
                 <SidebarMenuButton asChild>
                   <Link href={item.url}>
                     {" "}

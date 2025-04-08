@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
+
 const userFormSchema = z.object({
   userName: z
     .string()
@@ -72,8 +73,8 @@ const LoginPage = () => {
     mutationFn: fetchData,
     onSuccess: (data: userType) => {
       if (data) {
-        qc.setQueryData(["UserData"], data);
-
+        qc.setQueryData(['UserData'], data);
+        localStorage.setItem('userData', JSON.stringify(data))
         route.push("/dashboard");
       }
     },

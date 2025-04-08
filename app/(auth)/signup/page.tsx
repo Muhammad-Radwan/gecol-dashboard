@@ -49,6 +49,7 @@ const userFormSchema = z.object({
     .string()
     .nonempty("هذا الحقل مطلوب")
     .min(16, "يجب إدخال بيانات بشكل صحيح"),
+  isITUser: z.boolean(),
 });
 
 const SignupPage = () => {
@@ -63,6 +64,7 @@ const SignupPage = () => {
       loginId: "",
       password: "",
       passwordConfirm: "",
+      isITUser: false,
     },
   });
 
@@ -100,6 +102,7 @@ const SignupPage = () => {
         loginId: newEmployee.loginId,
         password: newEmployee.passwordConfirm,
         companyGuid: newEmployee.companyGuid,
+        isITUser: newEmployee.isITUser,
       };
 
       await axios.post(url, newCompany, {

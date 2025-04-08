@@ -13,5 +13,6 @@ export type userType = {
       "administrationId": number,
       "administrationName": string,
       "mainCompanyGuid": string
-    }
+    },
+    "isITUser": boolean
   }

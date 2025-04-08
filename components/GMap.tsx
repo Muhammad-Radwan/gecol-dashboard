@@ -1,11 +1,11 @@
-'use effect'
+"use effect";
 import { apiUrl } from "@/lib/Constants";
 import { MeterLocationsType } from "@/lib/MeterLocationsType";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 const containerStyle = {
@@ -13,46 +13,17 @@ const containerStyle = {
   height: "600px",
 };
 
-const center = {
-  lat: 37.7749, // Default latitude (San Francisco)
-  lng: -122.4194, // Default longitude
-};
-
 interface props {
-  companyGuid: string
+  companyGuid: string;
 }
 
-const Map = ({companyGuid} : props) => {
+const Map = ({ companyGuid }: props) => {
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyAITueVRuon10PYXEojy-SjKMTM1zRD31Q',
+    googleMapsApiKey: "AIzaSyAITueVRuon10PYXEojy-SjKMTM1zRD31Q",
   });
-
-  const [userLocation, setUserLocation] =
-    useState<google.maps.LatLngLiteral | null>(null);
-
-  useEffect(() => {
-    if (navigator.geolocation) {
-
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation({
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          });
-          
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-        }, {
-          enableHighAccuracy: true
-        }
-      );
-    } else {
-      console.error("Geolocation is not supported by this browser.");
-    }
-    
-  }, []);
 
   const fetchData = async () => {
     try {
@@ -72,24 +43,34 @@ const Map = ({companyGuid} : props) => {
     queryFn: fetchData,
   });
 
+  useEffect(() => {
+    if (map && Array.isArray(meterData) && meterData.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      meterData!.forEach(({ latitude, longitude }) => {
+        bounds.extend(new window.google.maps.LatLng(latitude, longitude));
+      });
+      map.fitBounds(bounds);
+    }
+  }, [map, meterData]);
+
   if (!isLoaded || typeof window === "undefined") return <Loader2 />;
 
   return (
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={userLocation || center}
-        zoom={16} 
-      >
-
-        {meterData?.map((x) => (
-          <Marker
-            key={x.newMeterNumber}
-            title={x.barcode}
-            position={{ lat: x.latitude, lng: x.longitude }}
-          />
-        ))}
-      </GoogleMap>
-    
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      onLoad={(mapInstance: google.maps.Map) => {
+        setMap(mapInstance);
+        mapRef.current = mapInstance;
+      }}
+    >
+      {meterData?.map((x) => (
+        <Marker
+          key={x.newMeterNumber}
+          title={x.barcode}
+          position={{ lat: x.latitude, lng: x.longitude }}
+        />
+      ))}
+    </GoogleMap>
   );
 };
 
