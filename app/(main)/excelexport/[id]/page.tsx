@@ -1,15 +1,13 @@
 "use client";
 import MyDatePicker from "@/components/MyDatePicker";
 import { Button } from "@/components/ui/button";
-import useFetchAllmeters from "@/hooks/use-fetchallmeters";
-import { useParams } from "next/navigation";
+
 import { useEffect, useState } from "react";
 
 const ExcelExport = () => {
-  const params = useParams();
   const [date1, setDate1] = useState<Date>();
   const [date2, setDate2] = useState<Date>();
-  const {isLoading, error, meters} = useFetchAllmeters(params.id?.toString() || '')
+
 
   useEffect(() => {
     setDate1(new Date());
