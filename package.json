@@ -24,6 +24,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
+    "exceljs": "^4.4.0",
     "install": "^0.13.0",
     "lucide-react": "^0.482.0",
     "next": "15.2.2",
@@ -55,9 +56,9 @@
     "typescript": "^5"
   },
   "overrides": {
-  "react-is": "^19.0.0-rc-69d4b800-20241021",
-  "react-day-picker": {
+    "react-is": "^19.0.0-rc-69d4b800-20241021",
+    "react-day-picker": {
       "react": "19.0.0"
     }
-}
+  }
 }

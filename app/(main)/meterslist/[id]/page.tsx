@@ -15,14 +15,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { apiUrl } from "@/lib/Constants";
+import { ExportExcel } from "@/lib/ExportExcel";
 import { MeterListType } from "@/lib/MetersListType";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import * as XLSX from "xlsx";
-
 const MetersList = () => {
   const params = useParams();
   const [page, setPage] = useState<number>(1);
@@ -45,13 +43,6 @@ const MetersList = () => {
     queryFn: () => fetchData(page),
   });
 
-  const exportToExcel = (data: MeterListType[]) => {
-    const ws = XLSX.utils.json_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-    XLSX.writeFile(wb, "data.xlsx");
-  };
-
   return (
     <div>
       <h1 className="text-2xl">قائمة التركيبات</h1>
@@ -59,7 +50,7 @@ const MetersList = () => {
         <div className="flex items-center">
           <Button
             className="mt-3"
-            onClick={() => exportToExcel(metersData || [])}
+            onClick={() => ExportExcel(metersData || [])}
           >
             تصدير إكسل (الصفحة الحالية)
           </Button>
