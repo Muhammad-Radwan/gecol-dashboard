@@ -9,12 +9,12 @@ import { userType } from "@/lib/EmployeeType";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Loader2 } from "lucide-react";
 
 const userFormSchema = z.object({
   userName: z
@@ -48,17 +48,21 @@ const LoginPage = () => {
       const response = await axios.get(url);
 
       setIsLoading(false);
-      const userGuide = response.data.employeeGuid;
+      const cardGuide = response.data.cardGuide;
+      const isITAdmin = response.data.isITUser.toString();
+
+      console.log(JSON.stringify({ cardGuide, isITAdmin }));
 
       await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userGuide }),
+        body: JSON.stringify({ cardGuide, isITAdmin }),
       });
 
       return response.data;
     } catch (error) {
       console.log(error);
+
       toast.error("لا يمكن تسجيل الدخول", {
         description: "يوجد خطأ في بيانات الدخول",
         action: {
@@ -73,8 +77,8 @@ const LoginPage = () => {
     mutationFn: fetchData,
     onSuccess: (data: userType) => {
       if (data) {
-        qc.setQueryData(['UserData'], data);
-        localStorage.setItem('userData', JSON.stringify(data))
+        qc.setQueryData(["UserData"], data);
+        localStorage.setItem("userData", JSON.stringify(data));
         route.push("/dashboard");
       }
     },

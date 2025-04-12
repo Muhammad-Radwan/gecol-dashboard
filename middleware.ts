@@ -1,15 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware (req: NextRequest) {
-    const userGuid = req.cookies.get('guid')
-    const protectedRoutes = ['/dashboard', '/createcompany', '/signup', '/meterslist']
+    
+    const protectedRoutes = ['/createcompany', '/signup', '/meterslist'];
+    const isProtected = protectedRoutes.includes(req.nextUrl.pathname);
 
-    if (protectedRoutes.includes(req.nextUrl.pathname) && !userGuid) {
-        return NextResponse.redirect(new URL('/login', req.url))
+    const userGuid = req.cookies.get("guid")?.value;
+    const isAdminString = req.cookies.get("isItAdmin")?.value;
+    let isAdmin = false
+    if (isAdminString === "true") {
+        isAdmin = true
+    } else {
+        isAdmin = false
     }
-    return NextResponse.next()
+    console.log(`guid: ${userGuid}`)
+    console.log(`is admin: ${isAdmin}`)
+
+    if (isProtected && (!userGuid || !isAdmin)) {
+        return NextResponse.redirect(new URL("/login", req.url));
+    }
 }
 
 export const config = {
-    matcher: ['/dashboard', '/createcompany', '/signup', '/meterslist'], // Define routes to protect
+    matcher: ['/createcompany', '/signup', '/meterslist'], // Define routes to protect
 };

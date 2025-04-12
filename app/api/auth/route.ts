@@ -1,16 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-    const userGuid = await req.json()
+    const {cardGuide, isITAdmin} = await req.json()
 
-    if(!userGuid)
-        return NextResponse.json({error: "couldn't retrieve user guid"}, {status: 400})
+    //console.log(`mother fucker post data: ${cardGuide} /// ${isITAdmin}`)
+
+    if(!cardGuide || !isITAdmin)
+        return NextResponse.json({error: "missing user guid or is admin"}, {status: 400})
 
     const response = NextResponse.json({success: true})
 
     response.cookies.set({
         name: "guid",
-        value: userGuid,
+        value: cardGuide,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24, // 1 day
+    })
+
+    response.cookies.set({
+        name: "isItAdmin",
+        value: isITAdmin,
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",

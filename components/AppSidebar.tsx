@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
+  FaBarcode,
   FaBuilding,
   FaChartBar,
   FaFileExcel,
@@ -37,11 +38,10 @@ export function AppSidebar() {
     if (stored) {
       const parsed = JSON.parse(stored);
       queryClient.setQueryData(["UserData"], parsed);
-      setUserData(parsed); // optional, for immediate access
+      setUserData(parsed);
     }
   }, []);
 
-  //const queryData = queryClient.getQueryData<userType>(["UserData"]);
   const router = useRouter();
 
   const menuItems = [

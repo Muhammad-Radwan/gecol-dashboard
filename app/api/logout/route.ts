@@ -14,5 +14,15 @@ export async function GET() {
         sameSite: "strict",
     });
 
+    response.cookies.set({
+        name: "isAdmin",
+        value: "",
+        path: "/",
+        expires: new Date(0), // Expire immediately
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+    });
+
     return response
 }

@@ -24,6 +24,7 @@ import { useState } from "react";
 const MetersList = () => {
   const params = useParams();
   const [page, setPage] = useState<number>(1);
+  
   const fetchData = async (page: number) => {
     try {
       const response = await axios.get(

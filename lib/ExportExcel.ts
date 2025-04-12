@@ -1,6 +1,7 @@
 import ExcelJS from "exceljs";
 import { MeterListType } from "./MetersListType";
 
+
 export async function ExportExcel(data: MeterListType[]) {
     
         const workbook = new ExcelJS.Workbook();
@@ -103,6 +104,7 @@ export async function ExportExcel(data: MeterListType[]) {
           ]),
         });
     
+        worksheet.views = [{ rightToLeft: true }];
         // Export to file
         const buffer = await workbook.xlsx.writeBuffer();
     
@@ -113,7 +115,6 @@ export async function ExportExcel(data: MeterListType[]) {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "data.xlsx";
+        link.download = "بيانات التركيبات.xlsx";
         link.click();
-      
 }
