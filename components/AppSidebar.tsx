@@ -48,37 +48,37 @@ export function AppSidebar() {
       title: "الرئيسية",
       url: "/dashboard",
       icon: FaHome,
-      visible: true
+      visible: true,
     },
     {
       title: "إضافة مستخدم",
       url: "/signup",
       icon: FaUser,
-      visible: userData?.isITUser
+      visible: userData?.isITUser,
     },
     {
       title: "إضافة شركة",
       url: "/createcompany",
       icon: FaBuilding,
-      visible: userData?.isITUser
+      visible: userData?.isITUser,
     },
     {
       title: "قائمة التركيبات",
       url: `/meterslist/${userData?.companyGuid}`,
       icon: FaList,
-      visible: true
+      visible: true,
     },
     {
-      title: "تصدير إكسل",
+      title: "تصدير البيانات",
       url: `/excelexport/${userData?.companyGuid}`,
       icon: FaFileExcel,
-      visible: true
+      visible: true,
     },
     {
       title: "احصائيات",
       url: `/statistics/${userData?.companyGuid}`,
       icon: FaChartBar,
-      visible: true
+      visible: true,
     },
   ];
 
