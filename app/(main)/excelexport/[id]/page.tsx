@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import useFetchAllmeters from "@/hooks/use-fetchallmeters";
 import useFetchMeterCsByCompany from "@/hooks/use-fetchmetercsbycompany";
 import { ExportExcel } from "@/lib/ExportExcel";
-import * as XLSX from "xlsx";
 
 import { useParams } from "next/navigation";
 import { ExportExcelMeterCs } from "@/lib/ExportExcelMeterCs";
@@ -14,16 +13,6 @@ const ExcelExport = () => {
   const { isLoading, meters } = useFetchAllmeters(id);
   const { metercs } = useFetchMeterCsByCompany(id);
 
-  const exportToExcel = (data: String[]) => {
-    // Convert the data to a worksheet
-    const ws = XLSX.utils.json_to_sheet(data);
-    // Create a new workbook and append the worksheet
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "الحصر");
-
-    // Export the file
-    XLSX.writeFile(wb, "بيانات الحصر.xlsx");
-  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
