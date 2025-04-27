@@ -6,11 +6,11 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     <div>
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
+        defaultTheme="light"
         enableSystem
         disableTransitionOnChange
       >
-      <main className="p-2">{children}</main>
+        <main className="p-2">{children}</main>
       </ThemeProvider>
     </div>
   );

@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
+  FaAccusoft,
   FaBuilding,
   FaChartBar,
   FaFileExcel,
@@ -78,6 +79,12 @@ export function AppSidebar() {
       title: "احصائيات",
       url: `/statistics/${userData?.companyGuid}`,
       icon: FaChartBar,
+      visible: true,
+    },
+    {
+      title: "البلاغات والتسويات",
+      url: `/historieslist/${userData?.companyGuid}`,
+      icon: FaAccusoft,
       visible: true,
     },
   ];
