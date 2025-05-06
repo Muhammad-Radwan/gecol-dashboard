@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 const Statistics = () => {
   const params = useParams();
   const compId = params.id?.toString();
+  
   const [date1, setDate1] = useState<Date>();
   const [date2, setDate2] = useState<Date>();
 

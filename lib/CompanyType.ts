@@ -6,4 +6,5 @@ export type company = {
     administrationId: number;
     administrationName: string;
     mainCompanyGuid: string;
+    mainCompany: string;
   };

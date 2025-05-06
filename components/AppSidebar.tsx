@@ -25,6 +25,7 @@ import {
   FaHome,
   FaList,
   FaLock,
+  FaTable,
   FaUser,
 } from "react-icons/fa";
 
@@ -76,9 +77,15 @@ export function AppSidebar() {
       visible: true,
     },
     {
-      title: "احصائيات",
+      title: "احصائيات الشركات",
       url: `/statistics/${userData?.companyGuid}`,
       icon: FaChartBar,
+      visible: true,
+    },
+    {
+      title: "احصائيات المسح والتسويات",
+      url: `/meterdefects`,
+      icon: FaTable,
       visible: true,
     },
     {

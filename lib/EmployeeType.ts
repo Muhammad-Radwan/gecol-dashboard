@@ -14,5 +14,8 @@ export type userType = {
       "administrationName": string,
       "mainCompanyGuid": string
     },
-    "isITUser": boolean
+    "isITUser": boolean,
+    "vendorName": string,
+    "deviceId": string,
+    "isActive": boolean
   }

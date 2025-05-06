@@ -1,4 +1,7 @@
 export type MeterHistoryType =   {
+    "employeeName": string,
+    "vendorId": string,
+    "vendorName": string,
     "cardGuide": string,
     "isSynced": number,
     "statusCode": number,

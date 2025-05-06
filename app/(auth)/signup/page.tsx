@@ -50,12 +50,11 @@ const userFormSchema = z.object({
     .nonempty("هذا الحقل مطلوب")
     .min(16, "يجب إدخال بيانات بشكل صحيح"),
   isITUser: z.boolean(),
+  isActive: z.boolean()
 });
 
 const SignupPage = () => {
   const route = useRouter();
-
-  // const qc = useQueryClient();
 
   const userForm = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
@@ -65,6 +64,7 @@ const SignupPage = () => {
       password: "",
       passwordConfirm: "",
       isITUser: false,
+      isActive: true
     },
   });
 
@@ -74,6 +74,7 @@ const SignupPage = () => {
       const response = await axios.get(url);
 
       return response.data;
+      
     } catch (error) {
       console.log(error);
       toast.error("لا يمكن الحصول على بيانات الشركة", {
@@ -103,6 +104,7 @@ const SignupPage = () => {
         password: newEmployee.passwordConfirm,
         companyGuid: newEmployee.companyGuid,
         isITUser: newEmployee.isITUser,
+        isActive: newEmployee.isActive
       };
 
       await axios.post(url, newCompany, {

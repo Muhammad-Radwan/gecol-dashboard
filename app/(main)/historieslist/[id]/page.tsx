@@ -16,6 +16,7 @@ import {
 
 import useFetchHistories from "@/hooks/use-fetchhistories";
 import { codeToHistoryState } from "@/lib/CodeToHistoryState";
+import { ExportMeterHistoryToExcel } from "@/lib/ExportMeterHistoryToExcel";
 import { IsDoneToString } from "@/lib/IsDoneToString";
 
 import { useParams } from "next/navigation";
@@ -28,6 +29,7 @@ const HistoriesList = () => {
   return (
     <div>
       <h1 className="text-2xl">قائمة البلاغات</h1>
+      <Button onClick={() => ExportMeterHistoryToExcel(meters || [])}>Excel</Button>
       <div className="space-y-4">
         <div className="flex items-center">
           <Pagination>
@@ -58,6 +60,9 @@ const HistoriesList = () => {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="text-center">الفني أو القارئ</TableHead>
+                <TableHead className="text-center">رقم الشباك</TableHead>
+                <TableHead className="text-center">القسم</TableHead>
                 <TableHead className="text-center">الباركود</TableHead>
                 <TableHead className="text-center">موقع التركيب</TableHead>
                 <TableHead className="text-center">العنوان</TableHead>
@@ -84,8 +89,16 @@ const HistoriesList = () => {
                 meters?.map((x) => (
                   <TableRow key={x.cardGuide}>
                     <TableCell className="text-center">
-                      {x.barcode}
+                      {x.employeeName}
                     </TableCell>
+
+                    <TableCell className="text-center">{x.vendorId}</TableCell>
+
+                    <TableCell className="text-center">
+                      {x.vendorName}
+                    </TableCell>
+
+                    <TableCell className="text-center">{x.barcode}</TableCell>
 
                     <TableCell className="text-center">
                       {x.locationName}
